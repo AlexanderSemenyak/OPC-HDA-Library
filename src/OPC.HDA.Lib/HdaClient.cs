@@ -30,28 +30,32 @@ namespace OPC.HDA.Lib
             }
         }
 
-        public void AddItemIdentifier(string identifier)
+        private ItemIdentifier[] HandleItemIdentifiers(string identifier)
         {
             if (_hdaServer != null)
             {
                 var identifiers = new[] { new ItemIdentifier(identifier) };
                 _hdaServer.CreateItems(identifiers);
                 _hdaServer.ValidateItems(identifiers);
-                Identifiers = new ItemIdentifier[_hdaServer.Items.Count];
-                _hdaServer.Items.CopyTo(Identifiers, 0);
+                identifiers = new ItemIdentifier[_hdaServer.Items.Count];
+                _hdaServer.Items.CopyTo(identifiers, 0);
+                return identifiers;
             }
+
+            return new[] { new ItemIdentifier() };
         }
 
         public IList<KeyValuePair<DateTime, string>> ReadRaw(string identifier, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
         {
             var response = new List<KeyValuePair<DateTime, string>>();
-            var readResult = _hdaServer.ReadRaw(new Time(startTime), new Time(endTime), maxValues ?? int.MaxValue, includeBounds, Identifiers);
+
+            var readResult = _hdaServer.ReadRaw(new Time(startTime), new Time(endTime), maxValues ?? int.MaxValue, includeBounds, HandleItemIdentifiers(identifier));
             
             foreach (var itemValueCollection in readResult)
             {
                 foreach (Opc.Hda.ItemValue itemValue in itemValueCollection)
                 {
-                    response.Add(new KeyValuePair<DateTime, string>(itemValue.Timestamp, itemValue.Value == null ? "" : itemValue.ToString() ));
+                    response.Add(new KeyValuePair<DateTime, string>(itemValue.Timestamp, itemValue.Value == null ? "" : itemValue.Value.ToString() ));
                 }
             }
             
