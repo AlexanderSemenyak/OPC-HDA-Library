@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPC.HDA.Lib", "OPC.HDA.Lib\OPC.HDA.Lib.csproj", "{014DAA08-1596-4A81-BFCB-BB7AA94AA739}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OPC.HDA.Win.UI.Test", "OPC.HDA.Win.UI.Test\OPC.HDA.Win.UI.Test.csproj", "{03A8617C-F694-4F08-973A-52A209555BC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{014DAA08-1596-4A81-BFCB-BB7AA94AA739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014DAA08-1596-4A81-BFCB-BB7AA94AA739}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014DAA08-1596-4A81-BFCB-BB7AA94AA739}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014DAA08-1596-4A81-BFCB-BB7AA94AA739}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A8617C-F694-4F08-973A-52A209555BC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A8617C-F694-4F08-973A-52A209555BC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A8617C-F694-4F08-973A-52A209555BC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A8617C-F694-4F08-973A-52A209555BC0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3D4F910-B82C-4F51-AA56-F3312669AE0C}
+	EndGlobalSection
+EndGlobal
