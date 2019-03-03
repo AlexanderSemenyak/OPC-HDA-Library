@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="HdaBrowseNode.cs" />
     <Compile Include="HdaClient.cs" />
+    <Compile Include="HdaServer.cs" />
+    <Compile Include="OpcHdaUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,87 +1,27 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
-using Opc;
-using Opc.Ae;
-using Opc.Hda;
 
 namespace OPC.HDA.Lib
 {
+
     public class HdaClient
     {
-        private Opc.Hda.Server _hdaServer = null;
-        private ItemIdentifier[] Identifiers { get; set; }
-        private IBrowser _browser;
+        public readonly HdaServer HdaServer;
         
         public HdaClient(string host, string serverName)
         {
-            try
-            {
-                _hdaServer = new Opc.Hda.Server(new OpcCom.Factory(), new URL($"opchda://{host}/{serverName}"));
-                _hdaServer.Connect();
-
-                _browser = _hdaServer.CreateBrowser(null, out _);
-            }
-            catch (ConnectFailedException ex)
-            {
-                Console.WriteLine(ex.ToString());
-                throw ex;
-            }
+            HdaServer = new HdaServer(host, serverName);
+            HdaServer.Connect();
         }
 
-        private ItemIdentifier[] HandleItemIdentifiers(string identifier)
+        public IList<KeyValuePair<DateTime, string>> ReadRaw(string tag, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
         {
-            if (_hdaServer != null)
-            {
-                var identifiers = new[] { new ItemIdentifier(identifier) };
-                _hdaServer.CreateItems(identifiers);
-                _hdaServer.ValidateItems(identifiers);
-                identifiers = new ItemIdentifier[_hdaServer.Items.Count];
-                _hdaServer.Items.CopyTo(identifiers, 0);
-                return identifiers;
-            }
-
-            return new[] { new ItemIdentifier() };
+            return HdaServer.ReadRaw(tag, startTime, endTime, maxValues, includeBounds);
         }
 
-        public IList<KeyValuePair<DateTime, string>> ReadRaw(string identifier, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
+        public HdaBrowseNode Browse(string address = null)
         {
-            var response = new List<KeyValuePair<DateTime, string>>();
-
-            var readResult = _hdaServer.ReadRaw(new Time(startTime), new Time(endTime), maxValues ?? int.MaxValue, includeBounds, HandleItemIdentifiers(identifier));
-            
-            foreach (var itemValueCollection in readResult)
-            {
-                foreach (Opc.Hda.ItemValue itemValue in itemValueCollection)
-                {
-                    response.Add(new KeyValuePair<DateTime, string>(itemValue.Timestamp, itemValue.Value == null ? "" : itemValue.Value.ToString() ));
-                }
-            }
-            
-            return response;
-        }
-
-        public HdaBrowseNode Browse(string address)
-        {
-            var browseElements = _browser.Browse(new ItemIdentifier(String.IsNullOrWhiteSpace(address) ? null : address));
-            var root = new HdaBrowseNode { Address = String.IsNullOrEmpty(address) ? "" : address, Name = String.IsNullOrEmpty(address) ? "Root" : address, Root = true, HasChildren = browseElements.Length > 0 };
-            this.GetNodes(root, browseElements);
-            return root;
-        }
-
-        public void GetNodes(HdaBrowseNode node, Opc.Hda.BrowseElement[] browseElements)
-        {
-            foreach (var browseElement in browseElements)
-            {
-                node.Nodes.Add(new HdaBrowseNode { Address = browseElement.ItemName, Item = browseElement.IsItem, Name = browseElement.Name, HasChildren = browseElement.HasChildren, OpcBrowseElement = browseElement });
-            }
-
-            foreach (var hdaBrowseNode in node.Nodes.Where(x => x.HasChildren).ToList())
-            {
-                var elements = _browser.Browse(new ItemIdentifier(hdaBrowseNode.Address));
-                GetNodes(hdaBrowseNode, elements);
-            }
+            return HdaServer.Browse(address);
         }
     }
 }
