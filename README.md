@@ -39,10 +39,7 @@ foreach (var keyValuePair in readRes)
 
 ## Output
 
-![Matrikon OPc Simulation](matrikonSimulation.png)
-
-
-<img src="matrikonSimulation.png" alt="alt text" width="598px">
+<img src="matrikonSimulation.png" alt="Matrikon OPC Simulation Server" width="886px">
 
 ```
 localhost
