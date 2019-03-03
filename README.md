@@ -6,8 +6,8 @@ https://opcfoundation.org/developer-tools/samples-and-tools-classic/core-compone
 
 ## Supported servers
 To test you can use any available OPC HDA Simulation server i.e:
-* [https://www.matrikonopc.com/products/opc-drivers/opc-simulation-server.aspx](Matrikon OPC)
-* [https://advosol.com/topic/downloadFreeTools](Advosol HDA Simulation Server)
+* [Matrikon OPC](https://www.matrikonopc.com/products/opc-drivers/opc-simulation-server.aspx)
+* [Advosol HDA Simulation Server](https://advosol.com/topic/downloadFreeTools)
 
 ## Sample code
 ```csharp
