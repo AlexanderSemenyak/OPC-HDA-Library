@@ -1,7 +1,7 @@
 # OPC-HDA-Library
 Free .Net OPC Historical Data Access Library
 
-To compile, please download OPC Core components, from OPCFoundation website:
+To compile, please download and install OPC Core components, from OPCFoundation website:
 https://opcfoundation.org/developer-tools/samples-and-tools-classic/core-components/
 
 
