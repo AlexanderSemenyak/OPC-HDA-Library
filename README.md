@@ -41,6 +41,9 @@ foreach (var keyValuePair in readRes)
 
 ![Matrikon OPc Simulation](matrikonSimulation.png)
 
+
+<img src="matrikonSimulation.png" alt="alt text" width="598px">
+
 ```
 localhost
 Matrikon.OPC.Simulation.1
