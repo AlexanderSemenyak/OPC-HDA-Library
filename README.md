@@ -4,6 +4,10 @@ Free .Net OPC Historical Data Access Library
 To compile, please download and install OPC Core components, from OPCFoundation website:
 https://opcfoundation.org/developer-tools/samples-and-tools-classic/core-components/
 
+## Supported servers
+To test you can use any available OPC HDA Simulation server i.e:
+* [https://www.matrikonopc.com/products/opc-drivers/opc-simulation-server.aspx](Matrikon OPC)
+* [https://advosol.com/topic/downloadFreeTools](Advosol HDA Simulation Server)
 
 ## Sample code
 ```csharp
