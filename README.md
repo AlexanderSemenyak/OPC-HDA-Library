@@ -38,7 +38,7 @@ foreach (var keyValuePair in readRes)
 ```
 
 ## Output
-
+![Matrikon OPC Simulation Server](matrikonSimulation.png)
 <img src="matrikonSimulation.png" alt="Matrikon OPC Simulation Server" width="886px">
 
 ```
