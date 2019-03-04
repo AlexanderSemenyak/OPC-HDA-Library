@@ -1,5 +1,5 @@
 # OPC HDA Library
-Free .Net OPC Historical Data Access Client Library
+OPC Historical Data Access Client Library
 
 OPC Core components, from OPCFoundation are required to compile and use this library:
 https://opcfoundation.org/developer-tools/samples-and-tools-classic/core-components/
