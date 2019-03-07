@@ -1,5 +1,5 @@
 # OPC HDA Library
-OPC Historical Data Access Client Library
+.Net OPC Historical Data Access Client Library
 
 ## Prerequisites
 OPC Core components, from OPCFoundation are required to compile and use this library:
