@@ -32,8 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Connection.Constants">
+      <HintPath>..\..\..\SharedDlls\Connection.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Core.DataTable">
+      <HintPath>..\..\..\SharedDlls\Core.DataTable.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +52,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadDataFromHda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadDataFromHda.Designer.cs">
+      <DependentUpon>ReadDataFromHda.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -53,6 +67,11 @@
       <Project>{014DAA08-1596-4A81-BFCB-BB7AA94AA739}</Project>
       <Name>OPC.HDA.Lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReadDataFromHda.resx">
+      <DependentUpon>ReadDataFromHda.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

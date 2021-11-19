@@ -30,14 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpcComRcw, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9a40e993cbface53, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpcComRcw.2.1.107\lib\net40\OpcComRcw.dll</HintPath>
+    <Reference Include="OpcComRcw, Version=2.0.105.1, Culture=neutral, PublicKeyToken=9a40e993cbface53, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SharedDlls\OpcComRcw.dll</HintPath>
     </Reference>
     <Reference Include="OpcNetApi, Version=2.1.0.0, Culture=neutral, PublicKeyToken=9a40e993cbface53, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpcNetApi.2.1.107\lib\net40\OpcNetApi.dll</HintPath>
+      <HintPath>..\..\SharedDlls\OpcNetApi.dll</HintPath>
     </Reference>
     <Reference Include="OpcNetApi.Com, Version=2.1.0.0, Culture=neutral, PublicKeyToken=9a40e993cbface53, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpcNetApi.Com.2.1.107\lib\net40\OpcNetApi.Com.dll</HintPath>
+      <HintPath>..\..\SharedDlls\OpcNetApi.Com.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
