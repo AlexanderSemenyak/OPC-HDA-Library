@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using OPC.HDA.Lib;
 
-namespace Opc.Hda.Console.Test
+namespace Opc.Hda
 {
     class Program
     {

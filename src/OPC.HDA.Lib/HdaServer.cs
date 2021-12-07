@@ -9,7 +9,7 @@ using ServerState = Opc.Hda.ServerState;
 
 namespace OPC.HDA.Lib
 {
-    public class HdaServer
+    public class HdaServer : IDisposable
     {
         private Server _opcHdaServer = null;
         private IBrowser _browser;
@@ -29,6 +29,8 @@ namespace OPC.HDA.Lib
             }
         }
 
+        private IBrowser GetOrCreateBrowser() => _browser??=_opcHdaServer.CreateBrowser(null, out _);
+
         internal HdaServer(string host, string serverName)
         {
             Host = host;
@@ -41,7 +43,6 @@ namespace OPC.HDA.Lib
             try
             {
                 _opcHdaServer.Connect();
-                _browser = _opcHdaServer.CreateBrowser(null, out _);
             }
             catch (Exception ex)
             {
@@ -62,7 +63,7 @@ namespace OPC.HDA.Lib
             return identifiers;
         }
 
-        internal IList<KeyValuePair<DateTime, string>> ReadRaw(string identifier, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
+        internal IEnumerable<KeyValuePair<DateTime, string>> ReadRaw(string identifier, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
         {
             var response = new List<KeyValuePair<DateTime, string>>();
 
@@ -72,16 +73,16 @@ namespace OPC.HDA.Lib
             {
                 foreach (ItemValue itemValue in itemValueCollection)
                 {
-                    response.Add(new KeyValuePair<DateTime, string>(itemValue.Timestamp, itemValue.Value == null ? "" : itemValue.Value.ToString()));
+                    yield return new KeyValuePair<DateTime, string>(itemValue.Timestamp, itemValue.Value == null ? "" : itemValue.Value.ToString());
                 }
             }
 
-            return response;
+            //return response;
         }
 
         internal HdaBrowseNode Browse(string address)
         {
-            var browseElements = _browser.Browse(new ItemIdentifier(string.IsNullOrWhiteSpace(address) ? null : address));
+            var browseElements = GetOrCreateBrowser().Browse(new ItemIdentifier(string.IsNullOrWhiteSpace(address) ? null : address));
             var root = new HdaBrowseNode { Tag = string.IsNullOrEmpty(address) ? "" : address, Name = string.IsNullOrEmpty(address) ? "Root" : address, Root = true, HasChildren = browseElements.Length > 0 };
             this.GetNodes(root, browseElements);
             return root;
@@ -96,9 +97,17 @@ namespace OPC.HDA.Lib
 
             foreach (var hdaBrowseNode in node.Nodes.Where(x => x.HasChildren).ToList())
             {
-                var elements = _browser.Browse(new ItemIdentifier(hdaBrowseNode.Tag));
+                var elements = GetOrCreateBrowser().Browse(new ItemIdentifier(hdaBrowseNode.Tag));
                 GetNodes(hdaBrowseNode, elements);
             }
+        }
+
+        public void Dispose()
+        {
+            _opcHdaServer?.Dispose();
+            _browser?.Dispose();
+            _opcHdaServer = null;
+            _browser = null;
         }
     }
 }

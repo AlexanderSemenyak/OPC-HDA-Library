@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace OPC.HDA.Lib
 {
 
-    public class HdaClient
+    public class HdaClient : IDisposable
     {
         public readonly HdaServer HdaServer;
         
@@ -14,7 +14,7 @@ namespace OPC.HDA.Lib
             HdaServer.Connect();
         }
 
-        public IList<KeyValuePair<DateTime, string>> ReadRaw(string tag, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
+        public IEnumerable<KeyValuePair<DateTime, string>> ReadRaw(string tag, DateTime startTime, DateTime endTime, int? maxValues = null, bool includeBounds = false)
         {
             return HdaServer.ReadRaw(tag, startTime, endTime, maxValues, includeBounds);
         }
@@ -22,6 +22,11 @@ namespace OPC.HDA.Lib
         public HdaBrowseNode Browse(string address = null)
         {
             return HdaServer.Browse(address);
+        }
+
+        public void Dispose()
+        {
+            HdaServer?.Dispose();
         }
     }
 }
