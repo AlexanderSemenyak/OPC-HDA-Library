@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Opc.Hda.Controls;
@@ -17,68 +20,14 @@ namespace Opc.Hda
         private volatile bool stopGetData = false;
         private static readonly string[] allowedExtensions= new[] { ".dt" };
         private static readonly string[] allowedXmlExtensions= new[] { ".xml" };
+        private bool stopDtDataToSql;
 
         public ReadDataFromHda()
         {
             InitializeComponent();
         }
 
-        private void btnReadTag_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var dtStart = GetDateStartTS();//= DateTime.Now;
-                var dtEnd = GetDateEndTS();//= DateTime.Now;
-                
-                int maxPoints = 100000;
-                InvokeTS(()=>maxPoints=Convert.ToInt32(txtMaxPoints.Text));
-
-                string server = GetInvokeTS(()=>this.txtServer.Text);
-
-                var serverName = GetInvokeTS(()=>txtServerSuffix.Text);//"Matrikon.OPC.Simulation.1";
-
-                var client = new HdaClient(server, serverName);
-                System.Console.WriteLine($"{client.HdaServer.Host}");
-                System.Console.WriteLine($"{client.HdaServer.ServerName}");
-                System.Console.WriteLine($"Server connected: {client.HdaServer.Connected}");
-
-                System.Console.WriteLine();
-                //var node = client.Browse();
-                //System.Console.WriteLine("Browse: ");
-                //System.Console.WriteLine(node + Environment.NewLine);
-                System.Console.WriteLine("Available servers: ");
-                try
-                {
-                    foreach (var availableServer in HdaUtils.GetAvailableServers(server))
-                    {
-                        System.Console.WriteLine(availableServer.ServerName);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    System.Console.WriteLine("Ошибка получения списка серверов:"+exception);
-                }
-
-                System.Console.WriteLine();
-
-                var tag = GetInvokeTS(()=>txtTag.Text);//"Bucket Brigade.Real8";
-                System.Console.WriteLine($"Rading tag {tag} from {client.HdaServer.Url}:");
-           
-                var readRes = client.ReadRaw(tag, dtStart , dtEnd, maxPoints);
-
-                foreach (var keyValuePair in readRes)
-                {
-                    System.Console.WriteLine($"Key: {keyValuePair.Key}, Value: {keyValuePair.Value}");
-                }
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-            }
-
-            System.Console.WriteLine("Завершено чтение...");
-            //System.Console.Read();
-        }
+        
 
         private DateTime GetDateEndTS()
         {
@@ -160,6 +109,8 @@ namespace Opc.Hda
 
                     if (this.stopGetData)
                     {
+                        InvokeTS(()=>MessageBox.Show("Остановлено пользователем."));
+
                         System.Console.WriteLine("Остановлено пользователем");
                         break;
                     }
@@ -198,7 +149,7 @@ namespace Opc.Hda
                 return clientLocal;
             }
 
-
+            bool noDetails = GetInvokeTS(() => this.cbNoConsoleDetails.Checked);
 
             InvokeTS(()=>txtTag.Text=tag); //"Bucket Brigade.Real8";
             var dtTag = CreateDtTemplate();
@@ -224,7 +175,6 @@ namespace Opc.Hda
 
                     foreach (var keyValuePair in readRes)
                     {
-                        existsData = true;
                         //System.Console.WriteLine($"Key: {keyValuePair.Key}, Value: {keyValuePair.Value}");
                         var date = keyValuePair.Key;
                         if (date < currentDateStart)
@@ -259,6 +209,8 @@ namespace Opc.Hda
                         var value = keyValuePair.Value;
                         if (!string.IsNullOrEmpty(value))
                         {
+                            existsData = true;
+
                             dtTag.Rows.Add(date, value);
                         }
                     }
@@ -270,7 +222,11 @@ namespace Opc.Hda
                         dtTag.Rows.Clear();
                     }
 
-                    System.Console.WriteLine($"\t\tЗагружено: {index} из {count} ({readRes.FirstOrDefault().Key:s} - {readRes.LastOrDefault().Key:s})");
+                    if (!noDetails)
+                    {
+                        System.Console.WriteLine($"\t\tЗагружено: {index} из {count} ({readRes.FirstOrDefault().Key:s} - {readRes.LastOrDefault().Key:s})");
+                    }
+
                     InvokeTS(()=>
                     {
                         this.progressBar1.Maximum = count;
@@ -281,7 +237,7 @@ namespace Opc.Hda
                     });
                 }
 
-                if (!existsData)
+                if (!existsData && !noDetails)
                 {
                     System.Console.WriteLine($"\tПропущено: {index} из {count} - нет данных ({readRes.FirstOrDefault().Key:s} - {readRes.LastOrDefault().Key:s})");
                 }
@@ -440,6 +396,320 @@ namespace Opc.Hda
         private void richTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.stopDtDataToSql = false;
+
+            //выбираем папку с экспортированными .dt
+            var allDtFiles = Directory.GetFiles(".", "*.dt");
+            if (allDtFiles.Length == 0)
+            {
+                MessageBox.Show("Нет ни одного .dt-файла в папке с программой. Загрузка отменена.");
+                return;
+            }
+            
+            if (MessageBox.Show($"Вы точно хотите загрузить в АРМ Геолога информацию из {allDtFiles.Length} .dt-файлов. (!!!Операция вносит изменения в архив - Вы сделали резервную копию базы данных)?",
+                    "Загрузка в архив телеметрии АРМ Геолога", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            MessageBox.Show("Информационно. Все успешно загруженные в Архив АРМ Геолог.dt-файлы будут помещены в подпапку: .\\Загруженные");
+
+            ThreadPool.QueueUserWorkItem(delegate {
+                ImportDataFromDtToOPCArchive(allDtFiles);
+            });
+        }
+
+        private void ImportDataFromDtToOPCArchive(string[] allDtFiles)
+        {
+            //txtCurrentIndex_FromAll_dtFiles
+            var connectionString = GetInvokeTS(()=>this.txtSQLConnectionString.Text);
+            using var connSql = new SqlConnection(connectionString);
+            connSql.Open();
+
+
+            static int DeleteFromArchive(SqlConnection conn, SqlTransaction trans, string idOpcPoint, DateTime dateStart, DateTime dateEnd)
+            {
+                using var cmdDeleteFromArchive = conn.CreateCommand();
+                if (trans != null) cmdDeleteFromArchive.Transaction = trans;
+
+                cmdDeleteFromArchive.CommandText = $"delete from OPCArchive where idOPCPoint='{idOpcPoint}' and Timestamp>='{dateStart:s}' and Timestamp <= '{dateEnd:s}'";
+                var deletedpoints = cmdDeleteFromArchive.ExecuteNonQuery();
+                return deletedpoints;
+            }
+
+            static string GetIdOpcPoint(SqlConnection conn, string tag)
+            {
+                using var cmdReadIdOPcPOint = conn.CreateCommand();
+                cmdReadIdOPcPOint.CommandText = $"select idOPCPoint from OPCPoint where Tag='{tag}'";
+                var idPoint = cmdReadIdOPcPOint.ExecuteScalar();
+                if (idPoint == DBNull.Value || idPoint == null)
+                {
+                    return null;
+                }
+
+                var id = ((Guid)idPoint).ToString("B");
+                return id;
+            }
+
+
+            int count = allDtFiles.Length;
+            StringBuilder log = new StringBuilder();
+            try
+            {
+                for (var i = 0; i < allDtFiles.Length; i++)
+                {
+                    var dtFile = allDtFiles[i];
+
+                    //(!)
+                    var startImportText = "Start import:" + dtFile;
+                    log.AppendLine(startImportText);
+                    Console.WriteLine(startImportText);
+
+                    var dt = Compress.getUncompressedDataTable(File.ReadAllBytes(dtFile));
+
+                    var tagName = dt.TableName;
+                    if (string.IsNullOrEmpty(tagName))
+                    {
+                        throw new NotSupportedException(
+                            $".dt-файл {dtFile} не содержит в названии таблицы имени тэга - удалите данный файл из спсика загружаемых и повторите операцию с оставшимися .dt-файлами.");
+                    }
+
+                    var idOpcPoint = GetIdOpcPoint(connSql, tagName);
+                    if (idOpcPoint == null)
+                    {
+                        throw new NotSupportedException(
+                            $".dt-файл {dtFile} содержит Тэг ({tagName}), который отсуствует в архиве телеметрии АРМ Геолога. Добавьте тэг в справочник АРМ Геолога и повторите операцию. А пока исключите данный файл из списка к загрузке и повторите операцию с оставшимися .dt-файлами.");
+                    }
+
+                    var currentText = $"Загрузка .dt: {i + 1} из {count}";
+                    InvokeTS(() => this.txtCurrentIndex_FromAll_dtFiles.Text = currentText);
+
+                    //(!)
+                    log.AppendLine(currentText);
+                    Console.WriteLine(currentText);
+
+                    if (this.stopDtDataToSql)
+                    {
+                        InvokeTS(() =>
+                            MessageBox.Show(
+                                "Загрузка отменена пользователем. Не забудьте переиндексировать таблицу OPCArchive в АРМ Геолога после частичной загрузки данных телеметрии..."));
+                        break;
+                    }
+
+                    if (dt.Rows.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    //Date=>Timestamp
+                    dt.Columns["Date"].ColumnName = "Timestamp";
+                    var timestampIndex = dt.Columns.IndexOf("Timestamp");
+
+                    //Value=>Val
+                    dt.Columns["Value"].ColumnName = "Val";
+
+                    //Tag=>idOPCPoint
+                    dt.Columns.Add("idOPCPoint", typeof(Guid));
+                    var idOpcPointIndex = dt.Columns.IndexOf("idOPCPoint");
+
+                    DateTime minDateTime = DateTime.MaxValue;
+                    DateTime maxDateTime = DateTime.MinValue;
+                    var idOpcPointGuid = new Guid(idOpcPoint);
+                    //var idOpcPointGuid = idOpcPoint;
+                    foreach (DataRow dtRow in dt.Rows)
+                    {
+                        dtRow[idOpcPointIndex] = idOpcPointGuid;
+                        var date = dtRow[timestampIndex] as DateTime?;
+                        if (date == null)
+                        {
+                            throw new ArgumentNullException("Есть строки без даты. Загрузка прекращена...");
+                        }
+
+                        if (minDateTime > date)
+                        {
+                            minDateTime = date.Value;
+                        }
+
+                        if (maxDateTime < date)
+                        {
+                            maxDateTime = date.Value;
+                        }
+                    }
+
+                    if (minDateTime == DateTime.MaxValue) throw new ArgumentNullException("Не найдена минимальная дата. Загрузка прекращена...");
+                    if (maxDateTime == DateTime.MinValue) throw new ArgumentNullException("Не найдена максимальная дата. Загрузка прекращена...");
+
+                    using (var transaction = connSql.BeginTransaction())
+                    {
+                        dt.TableName = "OPCArchive";
+                        try
+                        {
+
+                            //удаляем
+                            int deleted = DeleteFromArchive(connSql, transaction, idOpcPoint, minDateTime, maxDateTime);
+                            //(!)
+                            var deletedTxt = $"Удалено: {deleted} шт. за период {minDateTime:s}-{maxDateTime:s}";
+                            log.AppendLine(deletedTxt);
+                            Console.WriteLine(deletedTxt);
+                            //загружаем
+                            using var sbc = new SqlBulkCopy(connSql, SqlBulkCopyOptions.Default, transaction);
+                            var columnsS = dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
+                            //var columnsSd = columnsS;
+                            for (var c = 0; c < columnsS.Length; c++)
+                            {
+                                var col = columnsS[c];
+                                //var colD = columnsSd[i];
+                                sbc.ColumnMappings.Add(col, col);
+                            }
+
+                            sbc.DestinationTableName = dt.TableName;
+                            sbc.WriteToServer(dt);
+                            var insertedText = $"Вставлено: {dt.Rows.Count} шт. за период {minDateTime:s}-{maxDateTime:s}";
+
+                            log.AppendLine(insertedText);
+                            Console.WriteLine(insertedText);
+
+                            transaction.Commit();
+                        }
+                        catch (Exception e)
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
+                    }
+
+                    var endImportText = "End import:" + dtFile;
+                    log.AppendLine(endImportText);
+                    Console.WriteLine(endImportText);
+
+                    //переносим файл в загруженные
+                    var newPathForImported = Path.Combine(Path.GetDirectoryName(dtFile), "Загруженные", Path.GetFileName(dtFile));
+                    var folder = Path.GetDirectoryName(newPathForImported);
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+
+                    File.Move(dtFile, newPathForImported);
+                }
+            }
+            catch (Exception ex)
+            {
+                InvokeTS(()=>MessageBox.Show("Есть ошибки импорта. Смотрите детали в лог-файле..."));
+            }
+            finally
+            {
+                var logPath = $"LogUploadDtFilesToOPCArchive_{DateTime.Now.ToString("s").Replace(":", "_")}.log";
+                File.WriteAllText(logPath, log.ToString());
+                InvokeTS(() => MessageBox.Show($"Детали по импорту сохранены в лог-файле {logPath}"));
+            }
+            //if (columnMunit != null)
+            //{
+            //    columnsS = new string[] {"ObjectId", "ArticleId", "TagName", "ValueTime", "Value", "MUnit"};
+            //    columnsSd = new string[] {"ObjectId", "ArticleId", "TagName", "ValueTime", "Value", "MUnit"};
+            //}
+            //else
+            //{
+            //columnsS = new string[]dt.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
+            //columnsSd = columnsS;
+
+            InvokeTS(()=>MessageBox.Show("Загрузка завершена. Не забудьте переиндексировать таблицу OPCArchive в АРМ Геолога после загрузки данных телеметрии..."));
+        }
+
+        private void btnTestOPC_Click(object sender, EventArgs e)
+        {
+             try
+            {
+                var dtStart = GetDateStartTS();//= DateTime.Now;
+                var dtEnd = GetDateEndTS();//= DateTime.Now;
+                
+                int maxPoints = 100;
+                InvokeTS(()=>maxPoints=Convert.ToInt32(txtMaxPoints.Text));
+                string server = GetInvokeTS(()=>this.txtServer.Text);
+                var serverName = GetInvokeTS(()=>txtServerSuffix.Text);//"Matrikon.OPC.Simulation.1";
+
+                using var client = new HdaClient(server, serverName);
+
+                System.Console.WriteLine($"{client.HdaServer.Host}");
+                System.Console.WriteLine($"{client.HdaServer.ServerName}");
+                System.Console.WriteLine($"сервер подключен: {client.HdaServer.Connected}");
+
+                if (client.HdaServer.Connected)
+                {
+                    this.btnTestOPC.BackColor = Color.LawnGreen;
+                    this.btnTestOPC.Text = "OK";
+                }
+                else
+                {
+                    this.btnTestOPC.Text = "Oшибка";
+                    this.btnTestOPC.BackColor = Color.IndianRed;
+                }
+
+                System.Console.WriteLine("Доступные сервера: ");
+                try
+                {
+                    foreach (var availableServer in HdaUtils.GetAvailableServers(server))
+                    {
+                        System.Console.WriteLine(availableServer.ServerName);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    System.Console.WriteLine("Ошибка получения списка серверов:"+exception);
+                }
+
+                System.Console.WriteLine();
+
+                var tag = GetInvokeTS(() => richTextBox1.Lines.FirstOrDefault() ?? "АСУТП.SHU_3T.AI.GPS3T_AI_PG_V_KOLL.XVXX");//"Bucket Brigade.Real8";
+                System.Console.WriteLine($"Чтение тэга {tag} из {client.HdaServer.Url}:");
+           
+                var readRes = client.ReadRaw(tag, dtStart , dtEnd, maxPoints);
+
+                foreach (var keyValuePair in readRes)
+                {
+                    System.Console.WriteLine($"Дата: {keyValuePair.Key}, Значение: {keyValuePair.Value}");
+                }
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine(exception);
+                this.btnTestOPC.Text = "Oшибка";
+                this.btnTestOPC.BackColor = Color.IndianRed;
+            }
+
+            System.Console.WriteLine("Завершено чтение...");
+        }
+
+        private void btnTestSqlServer_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using var conn = new SqlConnection(this.txtSQLConnectionString.Text);
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "select 1";
+                cmd.ExecuteScalar();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Успешное подключение к Архиву телеметрии АРМ Геолога.");
+                Console.ResetColor();
+                this.btnTestSqlServer.BackColor = Color.LawnGreen;
+            }
+            catch (Exception exception)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Ошибка подключения к архиву телеметрии АРМ Геолога:\r\n"+exception);
+                Console.ResetColor();
+                this.btnTestSqlServer.BackColor = Color.IndianRed;
+            }
+        }
+
+        private void btnStopDtToSql_Click(object sender, EventArgs e)
+        {
+            this.stopDtDataToSql = true;
         }
     }
 }

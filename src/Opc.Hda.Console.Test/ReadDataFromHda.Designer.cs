@@ -29,45 +29,62 @@ namespace Opc.Hda
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReadDataFromHda));
             this.txtTagsFileName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tree = new Opc.Hda.Controls.Tree.TreeViewAdv();
+            this.treeColumn1 = new Opc.Hda.Controls.Tree.TreeColumn();
             this.txtCurrentTag = new System.Windows.Forms.TextBox();
             this.btnFindTagInTree = new System.Windows.Forms.Button();
             this.txtSearchTag = new System.Windows.Forms.TextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.tree = new Opc.Hda.Controls.Tree.TreeViewAdv();
-            this.treeColumn1 = new Opc.Hda.Controls.Tree.TreeColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.txtTag = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtDateEnd = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDateStart = new System.Windows.Forms.TextBox();
-            this.btnReadTag = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lbls = new System.Windows.Forms.Label();
-            this.txtServerSuffix = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtServer = new System.Windows.Forms.TextBox();
-            this.txtMaxPoints = new System.Windows.Forms.TextBox();
+            this.btnTestOPC = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtMaxPoints = new System.Windows.Forms.TextBox();
+            this.txtServer = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtServerSuffix = new System.Windows.Forms.TextBox();
+            this.lbls = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.txtMaxRowsInTable = new System.Windows.Forms.TextBox();
             this.txtTagFromTags = new System.Windows.Forms.TextBox();
             this.txtDayFromDays = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtReconnectPeriod = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnStopDtToSql = new System.Windows.Forms.Button();
+            this.txtCurrentIndex_FromAll_dtFiles = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.btnRefreshTags = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.cbNoConsoleDetails = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnTestSqlServer = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtSQLConnectionString = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtTagsFileName
@@ -95,6 +112,30 @@ namespace Opc.Hda
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(390, 674);
             this.panel1.TabIndex = 20;
+            // 
+            // tree
+            // 
+            this.tree.BackColor = System.Drawing.SystemColors.Window;
+            this.tree.Columns.Add(this.treeColumn1);
+            this.tree.DefaultToolTipProvider = null;
+            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree.DragDropMarkColor = System.Drawing.Color.Black;
+            this.tree.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.tree.Location = new System.Drawing.Point(0, 83);
+            this.tree.Model = null;
+            this.tree.Name = "tree";
+            this.tree.SelectedNode = null;
+            this.tree.Size = new System.Drawing.Size(390, 591);
+            this.tree.TabIndex = 18;
+            this.tree.UseColumns = true;
+            this.tree.SelectionChanged += new System.EventHandler(this.tree_SelectionChanged);
+            // 
+            // treeColumn1
+            // 
+            this.treeColumn1.FieldName = "";
+            this.treeColumn1.Header = "";
+            this.treeColumn1.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.treeColumn1.TooltipText = null;
             // 
             // txtCurrentTag
             // 
@@ -137,34 +178,10 @@ namespace Opc.Hda
             this.splitter1.TabIndex = 21;
             this.splitter1.TabStop = false;
             // 
-            // tree
-            // 
-            this.tree.BackColor = System.Drawing.SystemColors.Window;
-            this.tree.Columns.Add(this.treeColumn1);
-            this.tree.DefaultToolTipProvider = null;
-            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tree.DragDropMarkColor = System.Drawing.Color.Black;
-            this.tree.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.tree.Location = new System.Drawing.Point(0, 83);
-            this.tree.Model = null;
-            this.tree.Name = "tree";
-            this.tree.SelectedNode = null;
-            this.tree.Size = new System.Drawing.Size(390, 591);
-            this.tree.TabIndex = 18;
-            this.tree.UseColumns = true;
-            this.tree.SelectionChanged += new System.EventHandler(this.tree_SelectionChanged);
-            // 
-            // treeColumn1
-            // 
-            this.treeColumn1.FieldName = "";
-            this.treeColumn1.Header = "";
-            this.treeColumn1.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.treeColumn1.TooltipText = null;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 253);
+            this.label4.Location = new System.Drawing.Point(9, 185);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 13);
             this.label4.TabIndex = 10;
@@ -172,17 +189,19 @@ namespace Opc.Hda
             // 
             // txtTag
             // 
+            this.txtTag.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTag.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.txtTag.Location = new System.Drawing.Point(40, 250);
+            this.txtTag.Location = new System.Drawing.Point(41, 182);
             this.txtTag.Name = "txtTag";
-            this.txtTag.Size = new System.Drawing.Size(308, 20);
+            this.txtTag.Size = new System.Drawing.Size(317, 20);
             this.txtTag.TabIndex = 9;
             this.txtTag.Text = "<текущий экспортируемый тэг>";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 68);
+            this.label3.Location = new System.Drawing.Point(16, 111);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(89, 13);
             this.label3.TabIndex = 8;
@@ -190,7 +209,7 @@ namespace Opc.Hda
             // 
             // txtDateEnd
             // 
-            this.txtDateEnd.Location = new System.Drawing.Point(107, 65);
+            this.txtDateEnd.Location = new System.Drawing.Point(111, 108);
             this.txtDateEnd.Name = "txtDateEnd";
             this.txtDateEnd.Size = new System.Drawing.Size(100, 20);
             this.txtDateEnd.TabIndex = 7;
@@ -199,7 +218,7 @@ namespace Opc.Hda
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 45);
+            this.label2.Location = new System.Drawing.Point(16, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 6;
@@ -207,46 +226,24 @@ namespace Opc.Hda
             // 
             // txtDateStart
             // 
-            this.txtDateStart.Location = new System.Drawing.Point(107, 45);
+            this.txtDateStart.Location = new System.Drawing.Point(111, 88);
             this.txtDateStart.Name = "txtDateStart";
             this.txtDateStart.Size = new System.Drawing.Size(100, 20);
             this.txtDateStart.TabIndex = 5;
             this.txtDateStart.Text = "06.12.2020";
             // 
-            // btnReadTag
-            // 
-            this.btnReadTag.Location = new System.Drawing.Point(205, 140);
-            this.btnReadTag.Name = "btnReadTag";
-            this.btnReadTag.Size = new System.Drawing.Size(122, 23);
-            this.btnReadTag.TabIndex = 4;
-            this.btnReadTag.Text = "Читать в консоль";
-            this.btnReadTag.UseVisualStyleBackColor = true;
-            this.btnReadTag.Click += new System.EventHandler(this.btnReadTag_Click);
-            // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(5, 276);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(344, 18);
-            this.progressBar1.TabIndex = 16;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowDrop = true;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(5, 321);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(723, 350);
-            this.dataGridView1.TabIndex = 15;
-            this.dataGridView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
-            this.dataGridView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragEnter);
-            this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
+            this.progressBar1.Location = new System.Drawing.Point(12, 212);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(251, 18);
+            this.progressBar1.TabIndex = 16;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnTestOPC);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtMaxPoints);
             this.groupBox1.Controls.Add(this.txtServer);
@@ -259,49 +256,18 @@ namespace Opc.Hda
             this.groupBox1.Size = new System.Drawing.Size(731, 40);
             this.groupBox1.TabIndex = 17;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "OPC";
+            this.groupBox1.Text = "Подключение к OPC-HDA-серверу";
             // 
-            // lbls
+            // btnTestOPC
             // 
-            this.lbls.AutoSize = true;
-            this.lbls.Location = new System.Drawing.Point(156, 16);
-            this.lbls.Name = "lbls";
-            this.lbls.Size = new System.Drawing.Size(64, 13);
-            this.lbls.TabIndex = 3;
-            this.lbls.Text = "ServerSuffix";
-            // 
-            // txtServerSuffix
-            // 
-            this.txtServerSuffix.Location = new System.Drawing.Point(226, 13);
-            this.txtServerSuffix.Name = "txtServerSuffix";
-            this.txtServerSuffix.Size = new System.Drawing.Size(207, 20);
-            this.txtServerSuffix.TabIndex = 2;
-            this.txtServerSuffix.Text = "Infinity.OPCHDAServer";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(439, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Макс.количество точек";
-            // 
-            // txtServer
-            // 
-            this.txtServer.Location = new System.Drawing.Point(50, 13);
-            this.txtServer.Name = "txtServer";
-            this.txtServer.Size = new System.Drawing.Size(100, 20);
-            this.txtServer.TabIndex = 0;
-            this.txtServer.Text = "192.168.1.1";
-            // 
-            // txtMaxPoints
-            // 
-            this.txtMaxPoints.Location = new System.Drawing.Point(571, 13);
-            this.txtMaxPoints.Name = "txtMaxPoints";
-            this.txtMaxPoints.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxPoints.TabIndex = 11;
-            this.txtMaxPoints.Text = "100000";
+            this.btnTestOPC.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnTestOPC.Location = new System.Drawing.Point(677, 12);
+            this.btnTestOPC.Name = "btnTestOPC";
+            this.btnTestOPC.Size = new System.Drawing.Size(48, 23);
+            this.btnTestOPC.TabIndex = 28;
+            this.btnTestOPC.Text = "Тест...";
+            this.btnTestOPC.UseVisualStyleBackColor = false;
+            this.btnTestOPC.Click += new System.EventHandler(this.btnTestOPC_Click);
             // 
             // label1
             // 
@@ -312,121 +278,325 @@ namespace Opc.Hda
             this.label1.TabIndex = 1;
             this.label1.Text = "Server";
             // 
+            // txtMaxPoints
+            // 
+            this.txtMaxPoints.Location = new System.Drawing.Point(571, 13);
+            this.txtMaxPoints.Name = "txtMaxPoints";
+            this.txtMaxPoints.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxPoints.TabIndex = 11;
+            this.txtMaxPoints.Text = "100000";
+            // 
+            // txtServer
+            // 
+            this.txtServer.Location = new System.Drawing.Point(50, 13);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.Size = new System.Drawing.Size(100, 20);
+            this.txtServer.TabIndex = 0;
+            this.txtServer.Text = "192.168.1.1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(439, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(126, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Макс.количество точек";
+            // 
+            // txtServerSuffix
+            // 
+            this.txtServerSuffix.Location = new System.Drawing.Point(226, 13);
+            this.txtServerSuffix.Name = "txtServerSuffix";
+            this.txtServerSuffix.Size = new System.Drawing.Size(207, 20);
+            this.txtServerSuffix.TabIndex = 2;
+            this.txtServerSuffix.Text = "Infinity.OPCHDAServer";
+            // 
+            // lbls
+            // 
+            this.lbls.AutoSize = true;
+            this.lbls.Location = new System.Drawing.Point(156, 16);
+            this.lbls.Name = "lbls";
+            this.lbls.Size = new System.Drawing.Size(64, 13);
+            this.lbls.TabIndex = 3;
+            this.lbls.Text = "ServerSuffix";
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(205, 195);
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button2.Location = new System.Drawing.Point(165, 151);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(122, 25);
+            this.button2.Size = new System.Drawing.Size(193, 25);
             this.button2.TabIndex = 14;
-            this.button2.Text = "Остановить чтение";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Text = "Остановить выгрузку в *.dt-файлы";
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 117);
+            this.label6.Location = new System.Drawing.Point(16, 46);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(213, 13);
             this.label6.TabIndex = 14;
             this.label6.Text = "Макс.количество строк в одной таблице";
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(354, 45);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(363, 225);
-            this.richTextBox1.TabIndex = 18;
-            this.richTextBox1.Text = "АСУТП.SHU_3T.AI.GPS3T_AI_PG_V_KOLL.XVXX";
-            this.richTextBox1.SelectionChanged += new System.EventHandler(this.richTextBox1_SelectionChanged);
-            // 
             // txtMaxRowsInTable
             // 
-            this.txtMaxRowsInTable.Location = new System.Drawing.Point(227, 114);
+            this.txtMaxRowsInTable.Location = new System.Drawing.Point(298, 43);
             this.txtMaxRowsInTable.Name = "txtMaxRowsInTable";
-            this.txtMaxRowsInTable.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxRowsInTable.Size = new System.Drawing.Size(60, 20);
             this.txtMaxRowsInTable.TabIndex = 13;
-            this.txtMaxRowsInTable.Text = "300000";
+            this.txtMaxRowsInTable.Text = "4000000";
             // 
             // txtTagFromTags
             // 
-            this.txtTagFromTags.Location = new System.Drawing.Point(355, 276);
+            this.txtTagFromTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTagFromTags.Location = new System.Drawing.Point(269, 211);
             this.txtTagFromTags.Name = "txtTagFromTags";
-            this.txtTagFromTags.Size = new System.Drawing.Size(137, 20);
+            this.txtTagFromTags.Size = new System.Drawing.Size(110, 20);
             this.txtTagFromTags.TabIndex = 19;
             // 
             // txtDayFromDays
             // 
-            this.txtDayFromDays.Location = new System.Drawing.Point(92, 299);
+            this.txtDayFromDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDayFromDays.Location = new System.Drawing.Point(12, 154);
             this.txtDayFromDays.Name = "txtDayFromDays";
-            this.txtDayFromDays.Size = new System.Drawing.Size(255, 20);
+            this.txtDayFromDays.Size = new System.Drawing.Size(147, 20);
             this.txtDayFromDays.TabIndex = 20;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 94);
+            this.label7.Location = new System.Drawing.Point(16, 23);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(253, 13);
+            this.label7.Size = new System.Drawing.Size(271, 13);
             this.label7.TabIndex = 22;
-            this.label7.Text = "Переключаться каждые X дней (для ускорения):";
+            this.label7.Text = "Переподключаться каждые X дней (для ускорения):";
             // 
             // txtReconnectPeriod
             // 
-            this.txtReconnectPeriod.Location = new System.Drawing.Point(267, 91);
+            this.txtReconnectPeriod.Location = new System.Drawing.Point(298, 20);
             this.txtReconnectPeriod.Name = "txtReconnectPeriod";
             this.txtReconnectPeriod.Size = new System.Drawing.Size(60, 20);
             this.txtReconnectPeriod.TabIndex = 21;
-            this.txtReconnectPeriod.Text = "4";
+            this.txtReconnectPeriod.Text = "1";
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.cbNoConsoleDetails);
-            this.panel2.Controls.Add(this.txtReconnectPeriod);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.txtDayFromDays);
-            this.panel2.Controls.Add(this.txtTagFromTags);
-            this.panel2.Controls.Add(this.txtMaxRowsInTable);
-            this.panel2.Controls.Add(this.richTextBox1);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.groupBox4);
+            this.panel2.Controls.Add(this.groupBox3);
+            this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.dataGridView1);
-            this.panel2.Controls.Add(this.progressBar1);
-            this.panel2.Controls.Add(this.btnReadTag);
             this.panel2.Controls.Add(this.txtDateStart);
             this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.txtDateEnd);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.txtTag);
-            this.panel2.Controls.Add(this.label4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(731, 674);
             this.panel2.TabIndex = 22;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.dataGridView1);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(0, 394);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(731, 280);
+            this.groupBox4.TabIndex = 29;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Перетяните на серое поле .dt-файл для просмотра содежимого (можно извлечь для сви" +
+    "х нужд Ctrl+A, Ctrl+C, периодичность - 1 минута)";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowDrop = true;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(8, 19);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(723, 241);
+            this.dataGridView1.TabIndex = 21;
+            this.dataGridView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
+            this.dataGridView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragEnter);
+            this.dataGridView1.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragOver);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnStopDtToSql);
+            this.groupBox3.Controls.Add(this.txtCurrentIndex_FromAll_dtFiles);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.progressBar1);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtTag);
+            this.groupBox3.Controls.Add(this.txtDayFromDays);
+            this.groupBox3.Controls.Add(this.richTextBox1);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.btnRefreshTags);
+            this.groupBox3.Controls.Add(this.txtTagFromTags);
+            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.cbNoConsoleDetails);
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.txtReconnectPeriod);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.txtMaxRowsInTable);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(0, 85);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(731, 309);
+            this.groupBox3.TabIndex = 28;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Выгрузка архива телеметрии в *.dt-файлы (для АРМ Геолога)";
+            // 
+            // btnStopDtToSql
+            // 
+            this.btnStopDtToSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStopDtToSql.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnStopDtToSql.Location = new System.Drawing.Point(521, 269);
+            this.btnStopDtToSql.Name = "btnStopDtToSql";
+            this.btnStopDtToSql.Size = new System.Drawing.Size(200, 25);
+            this.btnStopDtToSql.TabIndex = 31;
+            this.btnStopDtToSql.Text = "Остановить загрузку из *.dt-файлов";
+            this.btnStopDtToSql.UseVisualStyleBackColor = false;
+            this.btnStopDtToSql.Click += new System.EventHandler(this.btnStopDtToSql_Click);
+            // 
+            // txtCurrentIndex_FromAll_dtFiles
+            // 
+            this.txtCurrentIndex_FromAll_dtFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCurrentIndex_FromAll_dtFiles.Location = new System.Drawing.Point(364, 274);
+            this.txtCurrentIndex_FromAll_dtFiles.Name = "txtCurrentIndex_FromAll_dtFiles";
+            this.txtCurrentIndex_FromAll_dtFiles.Size = new System.Drawing.Size(151, 20);
+            this.txtCurrentIndex_FromAll_dtFiles.TabIndex = 30;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(12, 258);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(453, 13);
+            this.label11.TabIndex = 29;
+            this.label11.Text = "2-й этап: загрузка архива из .dt-файлов в архив телеметрии АРМ Геолога";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(9, 106);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(370, 13);
+            this.label10.TabIndex = 28;
+            this.label10.Text = "1-й этап: выгрузка данных из OPC HDA-сервера в .dt-файлы";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(382, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(161, 13);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Перечень выгружаемых тэгов";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox1.Location = new System.Drawing.Point(385, 32);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(342, 176);
+            this.richTextBox1.TabIndex = 25;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            // 
+            // btnRefreshTags
+            // 
+            this.btnRefreshTags.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btnRefreshTags.Location = new System.Drawing.Point(385, 209);
+            this.btnRefreshTags.Name = "btnRefreshTags";
+            this.btnRefreshTags.Size = new System.Drawing.Size(343, 23);
+            this.btnRefreshTags.TabIndex = 26;
+            this.btnRefreshTags.Text = "Обновить список поддерживаемых к загрузке Тэгов";
+            this.btnRefreshTags.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button3.Location = new System.Drawing.Point(12, 274);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(346, 23);
+            this.button3.TabIndex = 24;
+            this.button3.Text = "Загрузить ВСЕ *.dt-файлы в архив АРМ Геолога";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(205, 169);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button1.Location = new System.Drawing.Point(12, 122);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
+            this.button1.Size = new System.Drawing.Size(346, 23);
             this.button1.TabIndex = 13;
-            this.button1.Text = "Читать в DataTable";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Text = "Выгрузить архив телеметрии в *.dt-файлы";
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // cbNoConsoleDetails
             // 
             this.cbNoConsoleDetails.AutoSize = true;
-            this.cbNoConsoleDetails.Location = new System.Drawing.Point(12, 226);
+            this.cbNoConsoleDetails.Location = new System.Drawing.Point(19, 69);
             this.cbNoConsoleDetails.Name = "cbNoConsoleDetails";
-            this.cbNoConsoleDetails.Size = new System.Drawing.Size(256, 17);
+            this.cbNoConsoleDetails.Size = new System.Drawing.Size(270, 17);
             this.cbNoConsoleDetails.TabIndex = 23;
-            this.cbNoConsoleDetails.Text = "Не писать детали по каждому дню в консоль";
+            this.cbNoConsoleDetails.Text = "Не выводить детали по каждому дню в консоль";
             this.cbNoConsoleDetails.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnTestSqlServer);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.txtSQLConnectionString);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 40);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(731, 45);
+            this.groupBox2.TabIndex = 27;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Подключение к архиву телеметрии АРМ Геолога";
+            // 
+            // btnTestSqlServer
+            // 
+            this.btnTestSqlServer.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnTestSqlServer.Location = new System.Drawing.Point(676, 16);
+            this.btnTestSqlServer.Name = "btnTestSqlServer";
+            this.btnTestSqlServer.Size = new System.Drawing.Size(48, 23);
+            this.btnTestSqlServer.TabIndex = 29;
+            this.btnTestSqlServer.Text = "Тест...";
+            this.btnTestSqlServer.UseVisualStyleBackColor = false;
+            this.btnTestSqlServer.Click += new System.EventHandler(this.btnTestSqlServer_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 23);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(116, 13);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "Строка подключения:";
+            // 
+            // txtSQLConnectionString
+            // 
+            this.txtSQLConnectionString.Location = new System.Drawing.Point(128, 19);
+            this.txtSQLConnectionString.Name = "txtSQLConnectionString";
+            this.txtSQLConnectionString.Size = new System.Drawing.Size(543, 20);
+            this.txtSQLConnectionString.TabIndex = 25;
+            this.txtSQLConnectionString.Text = "Server=.;Database=FOND;User ID=URRSSERVER\\Администратор;Trusted_Connection=true";
             // 
             // ReadDataFromHda
             // 
@@ -437,14 +607,19 @@ namespace Opc.Hda
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel1);
             this.Name = "ReadDataFromHda";
-            this.Text = "ReadDataFromHda";
+            this.Text = "Выгрузка архива телеметрии из архивного OPC HDA-сервера";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -464,9 +639,7 @@ namespace Opc.Hda
         private System.Windows.Forms.TextBox txtDateEnd;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDateStart;
-        private System.Windows.Forms.Button btnReadTag;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMaxPoints;
@@ -476,7 +649,6 @@ namespace Opc.Hda
         private System.Windows.Forms.Label lbls;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox txtMaxRowsInTable;
         private System.Windows.Forms.TextBox txtTagFromTags;
         private System.Windows.Forms.TextBox txtDayFromDays;
@@ -485,5 +657,21 @@ namespace Opc.Hda
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.CheckBox cbNoConsoleDetails;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox txtSQLConnectionString;
+        private System.Windows.Forms.Button btnTestOPC;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnRefreshTags;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnTestSqlServer;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtCurrentIndex_FromAll_dtFiles;
+        private System.Windows.Forms.Button btnStopDtToSql;
     }
 }
