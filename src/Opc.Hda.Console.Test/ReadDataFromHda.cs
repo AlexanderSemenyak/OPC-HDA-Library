@@ -594,12 +594,14 @@ namespace Opc.Hda
                         Directory.CreateDirectory(folder);
                     }
 
+                    if (File.Exists(newPathForImported)) File.Delete(newPathForImported);
                     File.Move(dtFile, newPathForImported);
                 }
             }
             catch (Exception ex)
             {
                 InvokeTS(()=>MessageBox.Show("Есть ошибки импорта. Смотрите детали в лог-файле..."));
+                log.AppendLine("Error:" + ex);
             }
             finally
             {
@@ -667,7 +669,7 @@ namespace Opc.Hda
                 var tag = GetInvokeTS(() => richTextBox1.Lines.FirstOrDefault() ?? "АСУТП.SHU_3T.AI.GPS3T_AI_PG_V_KOLL.XVXX");//"Bucket Brigade.Real8";
                 System.Console.WriteLine($"Чтение тэга {tag} из {client.HdaServer.Url}:");
            
-                var readRes = client.ReadRaw(tag, dtStart , dtEnd, maxPoints);
+                var readRes = client.ReadRaw(tag, dtStart , dtStart.AddDays(1)/*dtEnd*/, maxPoints);
 
                 foreach (var keyValuePair in readRes)
                 {

@@ -32,8 +32,6 @@ namespace Opc.Hda
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReadDataFromHda));
             this.txtTagsFileName = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tree = new Opc.Hda.Controls.Tree.TreeViewAdv();
-            this.treeColumn1 = new Opc.Hda.Controls.Tree.TreeColumn();
             this.txtCurrentTag = new System.Windows.Forms.TextBox();
             this.btnFindTagInTree = new System.Windows.Forms.Button();
             this.txtSearchTag = new System.Windows.Forms.TextBox();
@@ -78,6 +76,8 @@ namespace Opc.Hda
             this.btnTestSqlServer = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.txtSQLConnectionString = new System.Windows.Forms.TextBox();
+            this.tree = new Opc.Hda.Controls.Tree.TreeViewAdv();
+            this.treeColumn1 = new Opc.Hda.Controls.Tree.TreeColumn();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -112,30 +112,6 @@ namespace Opc.Hda
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(390, 674);
             this.panel1.TabIndex = 20;
-            // 
-            // tree
-            // 
-            this.tree.BackColor = System.Drawing.SystemColors.Window;
-            this.tree.Columns.Add(this.treeColumn1);
-            this.tree.DefaultToolTipProvider = null;
-            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tree.DragDropMarkColor = System.Drawing.Color.Black;
-            this.tree.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.tree.Location = new System.Drawing.Point(0, 83);
-            this.tree.Model = null;
-            this.tree.Name = "tree";
-            this.tree.SelectedNode = null;
-            this.tree.Size = new System.Drawing.Size(390, 591);
-            this.tree.TabIndex = 18;
-            this.tree.UseColumns = true;
-            this.tree.SelectionChanged += new System.EventHandler(this.tree_SelectionChanged);
-            // 
-            // treeColumn1
-            // 
-            this.treeColumn1.FieldName = "";
-            this.treeColumn1.Header = "";
-            this.treeColumn1.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.treeColumn1.TooltipText = null;
             // 
             // txtCurrentTag
             // 
@@ -181,7 +157,7 @@ namespace Opc.Hda
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 185);
+            this.label4.Location = new System.Drawing.Point(9, 213);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(26, 13);
             this.label4.TabIndex = 10;
@@ -192,7 +168,7 @@ namespace Opc.Hda
             this.txtTag.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTag.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.txtTag.Location = new System.Drawing.Point(41, 182);
+            this.txtTag.Location = new System.Drawing.Point(41, 210);
             this.txtTag.Name = "txtTag";
             this.txtTag.Size = new System.Drawing.Size(317, 20);
             this.txtTag.TabIndex = 9;
@@ -201,7 +177,7 @@ namespace Opc.Hda
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 111);
+            this.label3.Location = new System.Drawing.Point(191, 26);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(89, 13);
             this.label3.TabIndex = 8;
@@ -209,16 +185,16 @@ namespace Opc.Hda
             // 
             // txtDateEnd
             // 
-            this.txtDateEnd.Location = new System.Drawing.Point(111, 108);
+            this.txtDateEnd.Location = new System.Drawing.Point(279, 23);
             this.txtDateEnd.Name = "txtDateEnd";
-            this.txtDateEnd.Size = new System.Drawing.Size(100, 20);
+            this.txtDateEnd.Size = new System.Drawing.Size(79, 20);
             this.txtDateEnd.TabIndex = 7;
             this.txtDateEnd.Text = "07.12.2021";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 88);
+            this.label2.Location = new System.Drawing.Point(16, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 6;
@@ -226,9 +202,9 @@ namespace Opc.Hda
             // 
             // txtDateStart
             // 
-            this.txtDateStart.Location = new System.Drawing.Point(111, 88);
+            this.txtDateStart.Location = new System.Drawing.Point(109, 23);
             this.txtDateStart.Name = "txtDateStart";
-            this.txtDateStart.Size = new System.Drawing.Size(100, 20);
+            this.txtDateStart.Size = new System.Drawing.Size(76, 20);
             this.txtDateStart.TabIndex = 5;
             this.txtDateStart.Text = "06.12.2020";
             // 
@@ -236,7 +212,7 @@ namespace Opc.Hda
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(12, 212);
+            this.progressBar1.Location = new System.Drawing.Point(12, 234);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(251, 18);
             this.progressBar1.TabIndex = 16;
@@ -323,7 +299,7 @@ namespace Opc.Hda
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.button2.Location = new System.Drawing.Point(165, 151);
+            this.button2.Location = new System.Drawing.Point(165, 179);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(193, 25);
             this.button2.TabIndex = 14;
@@ -334,7 +310,7 @@ namespace Opc.Hda
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 46);
+            this.label6.Location = new System.Drawing.Point(16, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(213, 13);
             this.label6.TabIndex = 14;
@@ -342,7 +318,7 @@ namespace Opc.Hda
             // 
             // txtMaxRowsInTable
             // 
-            this.txtMaxRowsInTable.Location = new System.Drawing.Point(298, 43);
+            this.txtMaxRowsInTable.Location = new System.Drawing.Point(298, 71);
             this.txtMaxRowsInTable.Name = "txtMaxRowsInTable";
             this.txtMaxRowsInTable.Size = new System.Drawing.Size(60, 20);
             this.txtMaxRowsInTable.TabIndex = 13;
@@ -352,7 +328,7 @@ namespace Opc.Hda
             // 
             this.txtTagFromTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTagFromTags.Location = new System.Drawing.Point(269, 211);
+            this.txtTagFromTags.Location = new System.Drawing.Point(269, 233);
             this.txtTagFromTags.Name = "txtTagFromTags";
             this.txtTagFromTags.Size = new System.Drawing.Size(110, 20);
             this.txtTagFromTags.TabIndex = 19;
@@ -360,7 +336,7 @@ namespace Opc.Hda
             // txtDayFromDays
             // 
             this.txtDayFromDays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDayFromDays.Location = new System.Drawing.Point(12, 154);
+            this.txtDayFromDays.Location = new System.Drawing.Point(12, 182);
             this.txtDayFromDays.Name = "txtDayFromDays";
             this.txtDayFromDays.Size = new System.Drawing.Size(147, 20);
             this.txtDayFromDays.TabIndex = 20;
@@ -368,7 +344,7 @@ namespace Opc.Hda
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 23);
+            this.label7.Location = new System.Drawing.Point(16, 51);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(271, 13);
             this.label7.TabIndex = 22;
@@ -376,7 +352,7 @@ namespace Opc.Hda
             // 
             // txtReconnectPeriod
             // 
-            this.txtReconnectPeriod.Location = new System.Drawing.Point(298, 20);
+            this.txtReconnectPeriod.Location = new System.Drawing.Point(298, 48);
             this.txtReconnectPeriod.Name = "txtReconnectPeriod";
             this.txtReconnectPeriod.Size = new System.Drawing.Size(60, 20);
             this.txtReconnectPeriod.TabIndex = 21;
@@ -388,10 +364,6 @@ namespace Opc.Hda
             this.panel2.Controls.Add(this.groupBox3);
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.txtDateStart);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.txtDateEnd);
-            this.panel2.Controls.Add(this.label3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
@@ -402,9 +374,9 @@ namespace Opc.Hda
             // 
             this.groupBox4.Controls.Add(this.dataGridView1);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(0, 394);
+            this.groupBox4.Location = new System.Drawing.Point(0, 396);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(731, 280);
+            this.groupBox4.Size = new System.Drawing.Size(731, 278);
             this.groupBox4.TabIndex = 29;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Перетяните на серое поле .dt-файл для просмотра содежимого (можно извлечь для сви" +
@@ -419,7 +391,7 @@ namespace Opc.Hda
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(8, 19);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(723, 241);
+            this.dataGridView1.Size = new System.Drawing.Size(723, 239);
             this.dataGridView1.TabIndex = 21;
             this.dataGridView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragDrop);
             this.dataGridView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataGridView1_DragEnter);
@@ -431,7 +403,11 @@ namespace Opc.Hda
             this.groupBox3.Controls.Add(this.txtCurrentIndex_FromAll_dtFiles);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.progressBar1);
+            this.groupBox3.Controls.Add(this.txtDateEnd);
+            this.groupBox3.Controls.Add(this.txtDateStart);
+            this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.txtTag);
             this.groupBox3.Controls.Add(this.txtDayFromDays);
@@ -450,7 +426,7 @@ namespace Opc.Hda
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(0, 85);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(731, 309);
+            this.groupBox3.Size = new System.Drawing.Size(731, 311);
             this.groupBox3.TabIndex = 28;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Выгрузка архива телеметрии в *.dt-файлы (для АРМ Геолога)";
@@ -490,7 +466,7 @@ namespace Opc.Hda
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(9, 106);
+            this.label10.Location = new System.Drawing.Point(9, 134);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(370, 13);
             this.label10.TabIndex = 28;
@@ -511,14 +487,14 @@ namespace Opc.Hda
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.Location = new System.Drawing.Point(385, 32);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(342, 176);
+            this.richTextBox1.Size = new System.Drawing.Size(342, 193);
             this.richTextBox1.TabIndex = 25;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // btnRefreshTags
             // 
             this.btnRefreshTags.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnRefreshTags.Location = new System.Drawing.Point(385, 209);
+            this.btnRefreshTags.Location = new System.Drawing.Point(385, 231);
             this.btnRefreshTags.Name = "btnRefreshTags";
             this.btnRefreshTags.Size = new System.Drawing.Size(343, 23);
             this.btnRefreshTags.TabIndex = 26;
@@ -539,7 +515,7 @@ namespace Opc.Hda
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button1.Location = new System.Drawing.Point(12, 122);
+            this.button1.Location = new System.Drawing.Point(12, 150);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(346, 23);
             this.button1.TabIndex = 13;
@@ -550,7 +526,7 @@ namespace Opc.Hda
             // cbNoConsoleDetails
             // 
             this.cbNoConsoleDetails.AutoSize = true;
-            this.cbNoConsoleDetails.Location = new System.Drawing.Point(19, 69);
+            this.cbNoConsoleDetails.Location = new System.Drawing.Point(19, 97);
             this.cbNoConsoleDetails.Name = "cbNoConsoleDetails";
             this.cbNoConsoleDetails.Size = new System.Drawing.Size(270, 17);
             this.cbNoConsoleDetails.TabIndex = 23;
@@ -596,7 +572,32 @@ namespace Opc.Hda
             this.txtSQLConnectionString.Name = "txtSQLConnectionString";
             this.txtSQLConnectionString.Size = new System.Drawing.Size(543, 20);
             this.txtSQLConnectionString.TabIndex = 25;
-            this.txtSQLConnectionString.Text = "Server=.;Database=FOND;User ID=URRSSERVER\\Администратор;Trusted_Connection=true";
+            this.txtSQLConnectionString.Text = "Server=.;Database=FOND;User ID=URRSSERVER\\Администратор;Trusted_Connection=true;C" +
+    "onnection Timeout=0";
+            // 
+            // tree
+            // 
+            this.tree.BackColor = System.Drawing.SystemColors.Window;
+            this.tree.Columns.Add(this.treeColumn1);
+            this.tree.DefaultToolTipProvider = null;
+            this.tree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tree.DragDropMarkColor = System.Drawing.Color.Black;
+            this.tree.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.tree.Location = new System.Drawing.Point(0, 83);
+            this.tree.Model = null;
+            this.tree.Name = "tree";
+            this.tree.SelectedNode = null;
+            this.tree.Size = new System.Drawing.Size(390, 591);
+            this.tree.TabIndex = 18;
+            this.tree.UseColumns = true;
+            this.tree.SelectionChanged += new System.EventHandler(this.tree_SelectionChanged);
+            // 
+            // treeColumn1
+            // 
+            this.treeColumn1.FieldName = "";
+            this.treeColumn1.Header = "";
+            this.treeColumn1.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.treeColumn1.TooltipText = null;
             // 
             // ReadDataFromHda
             // 
@@ -613,7 +614,6 @@ namespace Opc.Hda
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox3.ResumeLayout(false);
